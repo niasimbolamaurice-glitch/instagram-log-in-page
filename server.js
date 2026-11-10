@@ -14,10 +14,11 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Connect to MongoDB locally
-mongoose.connect("mongodb://localhost:27017/instagram")
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error("connection error:", err));
+const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/instagram';
 
+mongoose.connect(dbURI)
+  .then(() => console.log('Successfully connected to MongoDB!'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 // Define User Schema
 const userSchema = new mongoose.Schema({
   username: String,
